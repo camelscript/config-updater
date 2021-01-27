@@ -1,12 +1,14 @@
 <?php
 
-class Styles{
+class Styles
+{
 	public static function factory(): self
 	{
 		return new self;
 	}
 
-	public function render(){
+	public function render()
+	{
 		echo <<<HTML
 		<style>
 			table {border-collapse: collapse;}
@@ -105,6 +107,15 @@ class Regions
 			return $this->value;
 		}
 
+		// widget case with define
+		$matches = null;
+		$pattern = '/define\([\s]*[\'"]'.$this->getKey().'[\'"][\s]*,[\s]*[\'"]([\w]+)[\'"][\s]*\)/';
+		if (preg_match($pattern, $line, $matches)) {
+			$this->value = $matches[1] ?? '';
+
+			return $this->value;
+		}
+
 		return $line;
 	}
 
@@ -153,6 +164,20 @@ class Regions
 				$newLine = implode(':', $exploded);
 
 				$cmdUpdate = 'sed -i \'\' \'s/'.$line.'/'.$newLine.'/\' \''.$this->getPath().'\'';
+
+				exec($cmdUpdate);
+
+				return $this->value;
+			}
+
+			// widget case with define
+			$pattern = '/define\([\s]*[\'"]'.$this->getKey().'[\'"][\s]*,[\s]*[\'"]([\w]+)[\'"][\s]*\)/';
+			if (preg_match($pattern, $line, $matches)) {
+				$this->value = $matches[1];
+
+				$newLine = preg_replace($pattern, 'define(\''.$this->getKey().'\', \''.$value.'\')', $line, -1);
+
+				$cmdUpdate = 'sed -i \'\' "s/'.$line.'/'.$newLine.'/" \''.$this->getPath().'\'';
 
 				exec($cmdUpdate);
 
@@ -244,7 +269,7 @@ class Form
 
 	public function addInput($type = 'text', $name = null, $value = null, $label = null, $selectOptions = null): self
 	{
-		$labelToRender = $label ? $label.':' :null;
+		$labelToRender = $label ? $label.':' : null;
 
 		$value = $_REQUEST[$name] ?? $value;
 
@@ -284,7 +309,7 @@ HTML;
 	public function render()
 	{
 		echo '<form>';
-		foreach ($this->inputs as $input){
+		foreach ($this->inputs as $input) {
 			echo $input;
 		}
 		echo '</form>';
@@ -310,6 +335,7 @@ $data = [
 	new Regions('/Users/mac/Pay Later Group/micro-services/merchant/.env', 'REGION_ID', 'merchant'),
 	new Regions('/Users/mac/Pay Later Group/micro-services/merchant/.env', 'DEFAULT_JURISDICTION', 'merchant'),
 
+<<<<<<< HEAD
 	new Regions('/Users/mac/Pay Later Group/micro-services/merchant-portal/.env', 'REGION_ID', 'merchant-portal'),
 	new Regions('/Users/mac/Pay Later Group/micro-services/merchant-portal/.env', 'DEFAULT_JURISDICTION', 'merchant-portal'),
 
@@ -324,21 +350,62 @@ $data = [
 
 	new Regions('/Users/mac/Pay Later Group/micro-services/external-service/.env', 'REGION_ID', 'external-service'),
 	new Regions('/Users/mac/Pay Later Group/micro-services/external-service/.env', 'DEFAULT_JURISDICTION', 'external-service'),
+=======
+	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant-portal/.env', 'REGION_ID', 'merchant-portal'),
+	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant-portal/.env', 'DEFAULT_JURISDICTION',
+		'merchant-portal'),
+
+	new Regions('/Users/UUU/Pay Later Group/micro-services/customer-portal/.env', 'REGION_ID', 'customer-portal'),
+	new Regions('/Users/UUU/Pay Later Group/micro-services/customer-portal/.env', 'DEFAULT_JURISDICTION',
+		'customer-portal'),
+
+	new Regions('/Users/UUU/Pay Later Group/micro-services/communications/.env', 'REGION_ID', 'communications'),
+	new Regions('/Users/UUU/Pay Later Group/micro-services/communications/.env', 'DEFAULT_JURISDICTION',
+		'communications'),
+
+	new Regions('/Users/UUU/Pay Later Group/micro-service-manager/.env', 'REGION_ID', 'micro-service-manager'),
+	new Regions('/Users/UUU/Pay Later Group/micro-service-manager/.env', 'DEFAULT_JURISDICTION',
+		'micro-service-manager'),
+
+	new Regions('/Users/UUU/Pay Later Group/micro-services/external-service/.env', 'REGION_ID', 'external-service'),
+	new Regions('/Users/UUU/Pay Later Group/micro-services/external-service/.env', 'DEFAULT_JURISDICTION',
+		'external-service'),
+>>>>>>> ca0d9e91c8fc599a9e95bfec6b51736fb91664e2
 
 	new Regions('/Users/mac/Pay Later Group/legacy/Admin/.config', 'region.id', 'admin'),
 
 	new Regions('/Users/mac/Pay Later Group/legacy/LMP/.config', 'region.id', 'lmp'),
 
+<<<<<<< HEAD
 	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'REGION_ID','CLL'),
 	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'DEFAULT_JURISDICTION','CLL'),
 	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'FNPL_REGION_COUNTRY_CODE','CLL'),
+=======
+	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env', 'REGION_ID','CLL - old'),
+	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env',	'DEFAULT_JURISDICTION', 'CLL - old'),
+	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env',	'FNPL_REGION_COUNTRY_CODE', 'CLL - old'),
+
+	new Regions('/Users/UUU/Pay Later Group/legacy/CLL/.env', 'REGION_ID','CLL - new'),
+	new Regions('/Users/UUU/Pay Later Group/legacy/CLL/.env', 'DEFAULT_JURISDICTION', 'CLL - new'),
+	new Regions('/Users/UUU/Pay Later Group/legacy/CLL/.env', 'FNPL_REGION_COUNTRY_CODE', 'CLL - new'),
+
+	new Regions('/Users/UUU/Pay Later Group/Micro-Service-Central/.env', 'REGION_ID', 'Central - old'),
+	new Regions('/Users/UUU/Pay Later Group/legacy/Central/.env', 'REGION_ID', 'Central - new'),
+
+	new Regions('/Users/UUU/Pay Later Group/application-widget/configuration.php', 'REGION_ID', 'widget'),
+
+>>>>>>> ca0d9e91c8fc599a9e95bfec6b51736fb91664e2
 ];
 
 
 Styles::factory()->render();
 
 Form::factory()
+<<<<<<< HEAD
 	->addInput('select', 'region', null,  'Region', ['gb', 'us'])
+=======
+	->addInput('text', 'region', null, 'Region')
+>>>>>>> ca0d9e91c8fc599a9e95bfec6b51736fb91664e2
 	->addInput('submit', 'submit', 'submit')
 	->render();
 
@@ -358,7 +425,7 @@ $return = [];
 
 foreach ($data as $item) {
 
-	if($newRegion = ($_REQUEST['region'] ?? null)){
+	if ($newRegion = ($_REQUEST['region'] ?? null)) {
 		$item->updateValue($newRegion);
 	}
 
