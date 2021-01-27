@@ -17,7 +17,7 @@ class Styles{
 				table-layout: fixed; /*Optional*/
 				border-spacing: 3px; /*Optional*/
 			}
-			
+
 			.row > * {
 				display: table-cell;
 			}
@@ -242,18 +242,40 @@ class Form
 		return new self;
 	}
 
-	public function addInput($type = 'text', $name = null, $value = null, $label = null): self
+	public function addInput($type = 'text', $name = null, $value = null, $label = null, $selectOptions = null): self
 	{
 		$labelToRender = $label ? $label.':' :null;
 
 		$value = $_REQUEST[$name] ?? $value;
 
-		$this->inputs[] = <<<HTML
-		<div class="row">
-			<label>{$labelToRender}</label>
-			<input type="{$type}" value="{$value}" placeholder="{$label}" name="{$name}" id="{$name}">
-		</div>
+		switch ($type) {
+			case 'select':
+				$options = '';
+
+				foreach ($selectOptions as $val) {
+					$options .= '<option  value="' . $val . '">' . $val . '</option>';
+				}
+
+				$this->inputs[] = <<<HTML
+				<div class="row">
+					<label>{$labelToRender}</label>
+					<select name="{$name}" id="{$name}">
+						{$options}
+					</select>
+				</div>
 HTML;
+			break;
+
+			default:
+			$this->inputs[] = <<<HTML
+				<div class="row">
+					<label>{$labelToRender}</label>
+					<input type="{$type}" value="{$value}" placeholder="{$label}" name="{$name}" id="{$name}">
+				</div>
+HTML;
+				break;
+		}
+
 
 		return $this;
 
@@ -270,53 +292,53 @@ HTML;
 }
 
 $data = [
-	new Regions('/Users/UUU/Pay Later Group/micro-services/mobile/.env', 'REGION_ID', 'mobile'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/mobile/.env', 'DEFAULT_JURISDICTION', 'mobile'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/mobile/.env', 'REGION_ID', 'mobile'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/mobile/.env', 'DEFAULT_JURISDICTION', 'mobile'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/accounts/.env', 'REGION_ID', 'accounts'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/accounts/.env', 'DEFAULT_JURISDICTION', 'accounts'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/accounts/.env', 'REGION_ID', 'accounts'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/accounts/.env', 'DEFAULT_JURISDICTION', 'accounts'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/documents/.env', 'REGION_ID', 'documents'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/documents/.env', 'DEFAULT_JURISDICTION', 'documents'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/documents/.env', 'REGION_ID', 'documents'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/documents/.env', 'DEFAULT_JURISDICTION', 'documents'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/address/.env', 'REGION_ID', 'address'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/address/.env', 'DEFAULT_JURISDICTION', 'address'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/address/.env', 'REGION_ID', 'address'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/address/.env', 'DEFAULT_JURISDICTION', 'address'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/payments/.env', 'REGION_ID', 'payments'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/payments/.env', 'DEFAULT_JURISDICTION', 'payments'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/payments/.env', 'REGION_ID', 'payments'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/payments/.env', 'DEFAULT_JURISDICTION', 'payments'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant/.env', 'REGION_ID', 'merchant'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant/.env', 'DEFAULT_JURISDICTION', 'merchant'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/merchant/.env', 'REGION_ID', 'merchant'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/merchant/.env', 'DEFAULT_JURISDICTION', 'merchant'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant-portal/.env', 'REGION_ID', 'merchant-portal'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/merchant-portal/.env', 'DEFAULT_JURISDICTION', 'merchant-portal'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/merchant-portal/.env', 'REGION_ID', 'merchant-portal'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/merchant-portal/.env', 'DEFAULT_JURISDICTION', 'merchant-portal'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/customer-portal/.env', 'REGION_ID', 'customer-portal'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/customer-portal/.env', 'DEFAULT_JURISDICTION', 'customer-portal'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/customer-portal/.env', 'REGION_ID', 'customer-portal'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/customer-portal/.env', 'DEFAULT_JURISDICTION', 'customer-portal'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/communications/.env', 'REGION_ID', 'communications'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/communications/.env', 'DEFAULT_JURISDICTION', 'communications'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/communications/.env', 'REGION_ID', 'communications'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/communications/.env', 'DEFAULT_JURISDICTION', 'communications'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-service-manager/.env', 'REGION_ID', 'micro-service-manager'),
-	new Regions('/Users/UUU/Pay Later Group/micro-service-manager/.env', 'DEFAULT_JURISDICTION', 'micro-service-manager'),
+	new Regions('/Users/mac/Pay Later Group/micro-service-manager/.env', 'REGION_ID', 'micro-service-manager'),
+	new Regions('/Users/mac/Pay Later Group/micro-service-manager/.env', 'DEFAULT_JURISDICTION', 'micro-service-manager'),
 
-	new Regions('/Users/UUU/Pay Later Group/micro-services/external-service/.env', 'REGION_ID', 'external-service'),
-	new Regions('/Users/UUU/Pay Later Group/micro-services/external-service/.env', 'DEFAULT_JURISDICTION', 'external-service'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/external-service/.env', 'REGION_ID', 'external-service'),
+	new Regions('/Users/mac/Pay Later Group/micro-services/external-service/.env', 'DEFAULT_JURISDICTION', 'external-service'),
 
-	new Regions('/Users/UUU/Pay Later Group/legacy/Admin/.config', 'region.id', 'admin'),
+	new Regions('/Users/mac/Pay Later Group/legacy/Admin/.config', 'region.id', 'admin'),
 
-	new Regions('/Users/UUU/Pay Later Group/legacy/LMP/.config', 'region.id', 'lmp'),
+	new Regions('/Users/mac/Pay Later Group/legacy/LMP/.config', 'region.id', 'lmp'),
 
-	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env', 'REGION_ID','CLL'),
-	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env', 'DEFAULT_JURISDICTION','CLL'),
-	new Regions('/Users/UUU/git.paylatergroup.com/code/Micro-Service-Consumer-Level-Lending-API/.env', 'FNPL_REGION_COUNTRY_CODE','CLL'),
+	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'REGION_ID','CLL'),
+	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'DEFAULT_JURISDICTION','CLL'),
+	new Regions('/Users/mac/Pay Later Group/legacy/CLL/.env', 'FNPL_REGION_COUNTRY_CODE','CLL'),
 ];
 
 
 Styles::factory()->render();
 
 Form::factory()
-	->addInput('text', 'region', null,  'Region')
+	->addInput('select', 'region', null,  'Region', ['gb', 'us'])
 	->addInput('submit', 'submit', 'submit')
 	->render();
 
